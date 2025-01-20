@@ -1,3 +1,21 @@
+#include <stdio.h>
+#include <string.h>
+
+char *a_user_name;
+
+int verify_user_name() 
+{
+	const char* VALID_USERNAME = "dat_wil";
+	puts("verifying username....\n");
+	return strcmp(a_user_name, VALID_USERNAME) == 0;
+}
+
+int verify_user_pass(const char* password) 
+{
+	const char* VALID_PASSWORD = "admin";
+	return strcmp(password, VALID_PASSWORD) == 0;
+}
+
 int main(void)
 {
 	int ret;
