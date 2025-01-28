@@ -31,4 +31,4 @@ And here are our hexadecimal values:
 0x48336750664b394d
 ```
 
-Now we just need to reverse the order and convert our values to get our password!
+Now we just need to reverse the order and convert (we made a program for this purpose : `decrypt.go`) our values to get our password!
