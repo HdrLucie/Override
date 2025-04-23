@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-char *a_user_name;
+char a_user_name[100]; // Seems like the array is of len 100, but it is unclear to me
 
 int verify_user_name() 
 {
@@ -30,7 +30,7 @@ int main(void)
 	}
 	puts("********* ADMIN LOGIN PROMPT *********");
 	printf("Enter Username: ");
-	fgets(&a_user_name,256,stdin);
+	fgets(a_user_name,256,stdin);
 	n = verify_user_name();
 	if (n == 0) {
 		puts("Enter Password: ");
