@@ -7,7 +7,7 @@ void main(void)
     char buffer[100];
 
     fgets(buffer, 100, stdin);
-    for (unsigned int i = 0; i < ft_strlen(buffer); i++) {
+    for (unsigned int i = 0; i < strlen(buffer); i++) {
         if (buffer[i] > '@' && buffer[i] < '[') {
             buffer[i] ^= 0x20;
         }
