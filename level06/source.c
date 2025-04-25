@@ -1,3 +1,8 @@
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/ptrace.h>
+
 int auth(char *login, unsigned int serial)
 {
     size_t len;
@@ -16,7 +21,7 @@ int auth(char *login, unsigned int serial)
         return 1;
     }
     hash = ((int)login[3] ^ 0x1337) + 0x5EEDED;
-  
+
     for (i = 0; i < len; i++) {
         if (login[i] < ' ') {
             return 1;
@@ -35,7 +40,7 @@ int main(void)
     char login[32];
     unsigned int serial;
     int result;
-    
+
     puts("***********************************");
     puts("*\t\tlevel06\t\t  *");
     puts("***********************************");
