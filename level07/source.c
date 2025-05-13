@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 
@@ -12,7 +11,7 @@ void clear_stdin(void) {
 
 unsigned int get_unum(void) {
     unsigned int local_10[3];
-    
+
     local_10[0] = 0;
     fflush(stdout);
     scanf("%u", local_10);
@@ -23,13 +22,13 @@ unsigned int get_unum(void) {
 int store_number(unsigned int* storage) {
     unsigned int number;
     unsigned int index;
-    
+
     printf(" Number: ");
     number = get_unum();
-    
+
     printf(" Index: ");
     index = get_unum();
-    
+
     if ((index % 3 == 0) || ((number >> 24) == 0xb7)) {
         puts(" *** ERROR! ***");
         puts("   This index is reserved for wil!");
@@ -42,7 +41,7 @@ int store_number(unsigned int* storage) {
 
 int read_number(unsigned int* storage) {
     unsigned int index;
-    
+
     printf(" Index: ");
     index = get_unum();
     printf(" Number at data[%u] is %u\n", index, storage[index]);
@@ -58,7 +57,7 @@ int main(int argc, char** argv, char** envp) {
     for (i = 0; argv[i] != NULL; i++) {
         memset(argv[i], 0, strlen(argv[i]));
     }
-    
+
     for (i = 0; envp[i] != NULL; i++) {
         memset(envp[i], 0, strlen(envp[i]));
     }
@@ -98,6 +97,6 @@ int main(int argc, char** argv, char** envp) {
         }
         memset(command, 0, sizeof(command));
     }
-    
+
     return 0;
 }
