@@ -2,10 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-#include <stdint.h>
-
-#define MAX_STORAGE 100
-#define MAX_COMMAND_LENGTH 20
 
 void clear_stdin(void) {
     int c;
@@ -15,55 +11,59 @@ void clear_stdin(void) {
 }
 
 unsigned int get_unum(void) {
-    unsigned int number = 0;
-    unsigned int local_input[3] = {0};
+    unsigned int local_10[3];
+    
+    local_10[0] = 0;
     fflush(stdout);
-    if (scanf("%u", &local_input[0]) != 1) {
-        printf("Erreur de lecture du nombre\n");
-        local_input[0] = 0;
-    }
+    scanf("%u", local_10);
     clear_stdin();
-    return local_input[0];
+    return local_10[0];
 }
 
-int store_number(uint32_t* storage) {
+int store_number(unsigned int* storage) {
+    unsigned int number;
+    unsigned int index;
+    
     printf(" Number: ");
-    uint32_t number = get_unum();
+    number = get_unum();
     
     printf(" Index: ");
-    uint32_t index = get_unum();
+    index = get_unum();
+    
     if ((index % 3 == 0) || ((number >> 24) == 0xb7)) {
         puts(" *** ERROR! ***");
         puts("   This index is reserved for wil!");
         puts(" *** ERROR! ***");
         return 1;
     }
-    if (index >= MAX_STORAGE) {
-        puts(" *** Index out of bounds! ***");
-        return 1;
-    }
-    
     storage[index] = number;
     return 0;
 }
 
-int read_number(uint32_t* storage) {
+int read_number(unsigned int* storage) {
+    unsigned int index;
+    
     printf(" Index: ");
-    uint32_t index = get_unum();
-    
-    if (index >= MAX_STORAGE) {
-        puts(" *** Index out of bounds! ***");
-        return 1;
-    }
-    
-    printf(" Number at index %u: %u\n", index, storage[index]);
+    index = get_unum();
+    printf(" Number at data[%u] is %u\n", index, storage[index]);
     return 0;
 }
 
-int main() {
-    char command[MAX_COMMAND_LENGTH] = {0};
-    uint32_t storage[MAX_STORAGE] = {0};
+int main(int argc, char** argv, char** envp) {
+    unsigned int storage[100];
+    char command[20];
+    int result = 1;
+    int i;
+
+    for (i = 0; argv[i] != NULL; i++) {
+        memset(argv[i], 0, strlen(argv[i]));
+    }
     
+    for (i = 0; envp[i] != NULL; i++) {
+        memset(envp[i], 0, strlen(envp[i]));
+    }
+    memset(storage, 0, sizeof(storage));
+    memset(command, 0, sizeof(command));
     puts("----------------------------------------------------");
     puts("  Welcome to wil's crappy number storage service!   ");
     puts("----------------------------------------------------");
@@ -74,32 +74,29 @@ int main() {
     puts("----------------------------------------------------");
     puts("   wil has reserved some storage :>                 ");
     puts("----------------------------------------------------");
-    while (true) {
+    while (1) {
         printf("Input command: ");
-        if (fgets(command, sizeof(command), stdin) == NULL) {
-            break;
+        result = 1;
+        fgets(command, 20, stdin);
+        unsigned int len = strlen(command);
+        if (len > 0 && command[len-1] == '\n') {
+            command[len-1] = '\0';
         }
-        command[strcspn(command, "\n")] = 0;
         if (strcmp(command, "store") == 0) {
-            if (store_number(storage) == 0) {
-                printf(" Completed %s command successfully\n", command);
-            } else {
-                printf(" Failed to do %s command\n", command);
-            }
+            result = store_number(storage);
         }
         else if (strcmp(command, "read") == 0) {
-            if (read_number(storage) == 0) {
-                printf(" Completed %s command successfully\n", command);
-            } else {
-                printf(" Failed to do %s command\n", command);
-            }
+            result = read_number(storage);
         }
         else if (strcmp(command, "quit") == 0) {
-            break;
+            return 0;
         }
-        else {
-            printf(" Unknown command: %s\n", command);
+        if (result == 0) {
+            printf(" Completed %s command successfully\n", command);
+        } else {
+            printf(" Failed to do %s command\n", command);
         }
+        memset(command, 0, sizeof(command));
     }
     
     return 0;
