@@ -10,13 +10,13 @@ void clear_stdin(void) {
 }
 
 unsigned int get_unum(void) {
-    unsigned int local_10[3];
+    unsigned int local_10;
 
-    local_10[0] = 0;
+    local_10 = 0;
     fflush(stdout);
-    scanf("%u", local_10);
+    scanf("%u", &local_10);
     clear_stdin();
-    return local_10[0];
+    return local_10;
 }
 
 int store_number(unsigned int* storage) {
@@ -25,10 +25,8 @@ int store_number(unsigned int* storage) {
 
     printf(" Number: ");
     number = get_unum();
-
     printf(" Index: ");
     index = get_unum();
-
     if ((index % 3 == 0) || ((number >> 24) == 0xb7)) {
         puts(" *** ERROR! ***");
         puts("   This index is reserved for wil!");
@@ -57,22 +55,21 @@ int main(int argc, char** argv, char** envp) {
     for (i = 0; argv[i] != NULL; i++) {
         memset(argv[i], 0, strlen(argv[i]));
     }
-
     for (i = 0; envp[i] != NULL; i++) {
         memset(envp[i], 0, strlen(envp[i]));
     }
     memset(storage, 0, sizeof(storage));
     memset(command, 0, sizeof(command));
-    puts("----------------------------------------------------");
-    puts("  Welcome to wil's crappy number storage service!   ");
-    puts("----------------------------------------------------");
-    puts(" Commands:                                          ");
-    puts("    store - store a number into the data storage    ");
-    puts("    read  - read a number from the data storage     ");
-    puts("    quit  - exit the program                        ");
-    puts("----------------------------------------------------");
-    puts("   wil has reserved some storage :>                 ");
-    puts("----------------------------------------------------");
+    puts("----------------------------------------------------\n"
+         "  Welcome to wil's crappy number storage service!   \n"
+         "----------------------------------------------------\n"
+         " Commands:                                          \n"
+         "    store - store a number into the data storage    \n"
+         "    read  - read a number from the data storage     \n"
+         "    quit  - exit the program                        \n"
+         "----------------------------------------------------\n"
+         "   wil has reserved some storage :>                 \n"
+         "----------------------------------------------------\n");
     while (1) {
         printf("Input command: ");
         result = 1;
@@ -97,6 +94,5 @@ int main(int argc, char** argv, char** envp) {
         }
         memset(command, 0, sizeof(command));
     }
-
     return 0;
 }
