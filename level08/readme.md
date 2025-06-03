@@ -26,7 +26,7 @@ We don't have the rights to create a `/backups/` folder in `/home/users/level08`
 ```bash 
 mkdir -p 'backups/home/users/level09/'
 ```
-Once created, we simply need to run the program with the path to our flag as filename parameter. In fact, we can open the file, as it is executed by level09. 
+Once created, we simply need to run the program with the path to our flag as filename parameter. As always, we can open the file, as it is executed by level09. 
 ```bash
 ~/level08 /home/users/level09/.pass
 ```
