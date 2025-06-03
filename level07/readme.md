@@ -27,7 +27,7 @@ In this way, we can store parts of our shellcode contiguously in the table.
 The last thing to do is find the index to overwrite our EIP:
 > (array address - eip backup address) / 4 == 114.
 
-To simplify the work, we've written a [script](https://github.com/HdrLucie/Override/blob/main/level07/payload_generator.bash) that converts our hexadecimal shellcode to decimal and stores our data in an array. Then, to browse this array, we call the store command, check whether our index is divisible by 3 or not and write the index accordingly. 
+To simplify the work, we've written a [script](https://github.com/HdrLucie/Override/blob/main/level07/payload_generator.bash) that converts our shellcode to decimal and stores our data in an array. Then, to browse this array, we call the store command, check whether our index is divisible by 3 or not and write the index accordingly. 
 Once the array has been browsed, we overwrite our eip. Then quit.
 
 All that remains is to copy the output from our bash into the program. And if all goes well, our shellcode executes and the flag is written. 
