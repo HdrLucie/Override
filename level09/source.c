@@ -2,12 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
-struct user_msg
+struct user_data
 {
-    char data[140];
+    char message[140];
     char username[40];
     int msg_size;
-    // Compiler adds here 8 bytes for alignment
 };
 
 void secret_backdoor()
@@ -18,7 +17,7 @@ void secret_backdoor()
     system(input);
 }
 
-void set_username(struct user_msg* msg)
+void set_username(struct user_data* user)
 {
     char buffer[128];
     int i;
@@ -30,37 +29,37 @@ void set_username(struct user_msg* msg)
 
     fgets(buffer, 128, stdin);
 
-    for (i = 0; i < 40 && buffer[i] != '\0'; i++)
+    for (i = 0; i <= 40 && buffer[i] != '\0'; i++)
     {
-        msg->username[i] = buffer[i];
+        user->username[i] = buffer[i];
     }
 
-    printf("Welcome, %s", msg->username);
+    printf("Welcome, %s", user->username);
 }
 
-void set_msg(struct user_msg* msg)
+void set_msg(struct user_data* user)
 {
-    char temp_msg[1024];
+    char buffer[1024];
 
-    memset(temp_msg, 0, 1024);
+    memset(buffer, 0, 1024);
 
     puts("Msg @Unix-Dude");
     printf(">> ");
 
-    fgets(temp_msg, 1024, stdin);
+    fgets(buffer, 1024, stdin);
 
-    strncpy(msg->data, temp_msg, msg->msg_size);
+    strncpy(user->message, buffer, user->msg_size);
 }
 
 void handle_msg()
 {
-    struct user_msg msg;
+    struct user_data user;
 
-    memset(msg.username, 0, 40);
-    msg.msg_size = 140;
+    memset(user.username, 0, sizeof(user.username));
+    user.msg_size = 140;
 
-    set_username(&msg);
-    set_msg(&msg);
+    set_username(&user);
+    set_msg(&user);
 
     puts("Msg sent!");
 }
